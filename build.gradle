@@ -4,3 +4,9 @@ plugins {
 
 group 'dev.twentyfive'
 version '1.0.0'
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'dev.twentyfive.raytracing.RayTracing'
+    }
+}

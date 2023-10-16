@@ -7,10 +7,9 @@ import dev.twentyfive.raytracing.renderer.Renderer;
 import dev.twentyfive.raytracing.scene.Scene;
 
 public class RayTracing {
-
-    public static final int WIDTH = 800;
-    public static final int HEIGHT = 450;
-    public static final int SAMPLES_PER_PIXEL = 1;
+    public static final int WIDTH = 1920;
+    public static final int HEIGHT = 1080;
+    public static final int SAMPLES_PER_PIXEL = 100;
     public static final int MAX_RAY_TRACE_DEPTH = 50;
     public static final int RENDER_THREADS = 24;
 
@@ -28,5 +27,4 @@ public class RayTracing {
 
         ImageUtil.savePixelsAsPNG("render.png", pixels);
     }
-
 }
