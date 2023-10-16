@@ -1,7 +1,7 @@
 package dev.twentyfive.raytracing.scene;
 
 import dev.twentyfive.raytracing.RayTracing;
-import dev.twentyfive.raytracing.math.Random;
+import dev.twentyfive.raytracing.math.RandomUtil;
 import dev.twentyfive.raytracing.math.Vector3;
 import dev.twentyfive.raytracing.primitives.Ray;
 import dev.twentyfive.raytracing.records.HitRecord;
@@ -20,12 +20,14 @@ public class Renderer {
         Vector3[] pixels = new Vector3[RayTracing.WIDTH * RayTracing.HEIGHT];
 
         for (int y = 0; y < RayTracing.HEIGHT; y++) {
+            System.out.println((y + 1) + " / " + RayTracing.HEIGHT);
+
             for (int x = 0; x < RayTracing.WIDTH; x++) {
                 Vector3 pixelColorSum = new Vector3();
 
                 for (int sample = 0; sample < RayTracing.SAMPLES_PER_PIXEL; sample++) {
-                    float u = ((float) x + Random.randomFloat()) / (float) (RayTracing.WIDTH - 1);
-                    float v = ((float) y + Random.randomFloat()) / (float) (RayTracing.HEIGHT - 1);
+                    float u = ((float) x + RandomUtil.randomFloat()) / (float) (RayTracing.WIDTH - 1);
+                    float v = ((float) y + RandomUtil.randomFloat()) / (float) (RayTracing.HEIGHT - 1);
 
                     Ray ray = this.camera.getCameraRay(u, v);
                     pixelColorSum = pixelColorSum.add(calculateRayColor(ray, RayTracing.MAX_RAY_TRACE_DEPTH));

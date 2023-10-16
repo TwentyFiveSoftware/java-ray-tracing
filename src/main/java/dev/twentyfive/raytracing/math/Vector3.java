@@ -17,7 +17,7 @@ public class Vector3 {
 
     public static Vector3 randomUnitVector() {
         while (true) {
-            final Vector3 point = new Vector3(Random.randomFloat(-1.0f, 1.0f), Random.randomFloat(-1.0f, 1.0f), Random.randomFloat(-1.0f, 1.0f));
+            final Vector3 point = new Vector3(RandomUtil.randomFloat(-1.0f, 1.0f), RandomUtil.randomFloat(-1.0f, 1.0f), RandomUtil.randomFloat(-1.0f, 1.0f));
             if (point.lengthSquared() < 1.0f) {
                 return point.normalized();
             }
@@ -93,7 +93,7 @@ public class Vector3 {
         final float r0 = (1.0f - refractionRatio) / (1.0f + refractionRatio);
         final float reflectance = (float) (r0 * r0 + (1.0f - r0 * r0) * Math.pow(1.0f - cosTheta, 5));
 
-        if (refractionRatio * sinTheta > 1.0f || reflectance > Random.randomFloat()) {
+        if (refractionRatio * sinTheta > 1.0f || reflectance > RandomUtil.randomFloat()) {
             return this.reflect(normal);
         }
 

@@ -10,7 +10,7 @@ public class RayTracing {
 
     public static final int WIDTH = 800;
     public static final int HEIGHT = 450;
-    public static final int SAMPLES_PER_PIXEL = 10;
+    public static final int SAMPLES_PER_PIXEL = 1;
     public static final int MAX_RAY_TRACE_DEPTH = 50;
 
     public static void main(String[] args) {
