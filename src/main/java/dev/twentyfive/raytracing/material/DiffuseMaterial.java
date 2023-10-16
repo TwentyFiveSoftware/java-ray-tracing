@@ -14,6 +14,6 @@ public record DiffuseMaterial(Texture texture) implements Material {
             scatterDirection = hitRecord.normal();
         }
 
-        return new ScatterRecord(true, this.texture.getColorAt(hitRecord.point()), new Ray(hitRecord.point(), scatterDirection));
+        return new ScatterRecord(this.texture.getColorAt(hitRecord.point()), new Ray(hitRecord.point(), scatterDirection));
     }
 }

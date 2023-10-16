@@ -59,16 +59,16 @@ public class Renderer {
         }
 
         final HitRecord hitRecord = scene.rayHitsScene(ray);
-        if (!hitRecord.hit()) {
+        if (hitRecord == null) {
             final float t = 0.5f * (ray.direction().getY() + 1.0f);
             return new Vector3(1.0f, 1.0f, 1.0f).mul(1.0f - t).add(new Vector3(0.5f, 0.7f, 1.0f).mul(t));
         }
 
         ScatterRecord scatterRecord = hitRecord.material().scatter(ray, hitRecord);
-        if (scatterRecord.doesScatter()) {
-            return scatterRecord.attenuation().mul(calculateRayColor(scene, scatterRecord.scatteredRay(), remainingDepth - 1));
+        if (scatterRecord == null) {
+            return new Vector3();
         }
 
-        return new Vector3();
+        return scatterRecord.attenuation().mul(calculateRayColor(scene, scatterRecord.scatteredRay(), remainingDepth - 1));
     }
 }

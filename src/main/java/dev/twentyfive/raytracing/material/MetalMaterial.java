@@ -11,10 +11,10 @@ public record MetalMaterial(Texture texture) implements Material {
     public ScatterRecord scatter(Ray ray, HitRecord hitRecord) {
         final Vector3 scatterDirection = ray.direction().reflect(hitRecord.normal());
 
-        return new ScatterRecord(
-            scatterDirection.dot(hitRecord.normal()) > 0.0f,
-            this.texture.getColorAt(hitRecord.point()),
-            new Ray(hitRecord.point(), scatterDirection)
-        );
+        if (scatterDirection.dot(hitRecord.normal()) <= 0.0f) {
+            return null;
+        }
+
+        return new ScatterRecord(this.texture.getColorAt(hitRecord.point()), new Ray(hitRecord.point(), scatterDirection));
     }
 }

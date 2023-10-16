@@ -6,16 +6,16 @@ import dev.twentyfive.raytracing.math.Vector3;
 public class ColorUtil {
 
     public static Vector3 getRandomColor() {
-        return hsvToRgb(RandomUtil.randomInt(0, 360), 0.75f, 0.45f);
+        return hsvToRgb(RandomUtil.randomFloat(0.0f, 360.0f), 0.75f, 0.45f);
     }
 
-    private static Vector3 hsvToRgb(int hue, float s, float v) {
+    private static Vector3 hsvToRgb(float hue, float s, float v) {
         final float h = hue / 60.0f;
-        final float fract = (float) (h - Math.floor(h));
+        final float fraction = (float) (h - Math.floor(h));
 
         final float p = v * (1.0f - s);
-        final float q = v * (1.0f - s * fract);
-        final float t = v * (1.0f - s * (1.0f - fract));
+        final float q = v * (1.0f - s * fraction);
+        final float t = v * (1.0f - s * (1.0f - fraction));
 
         if (0 <= h && h < 1) return new Vector3(v, t, p);
         else if (1 <= h && h < 2) return new Vector3(q, v, p);

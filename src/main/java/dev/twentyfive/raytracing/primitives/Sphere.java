@@ -13,7 +13,7 @@ public record Sphere(Vector3 center, float radius, Material material) {
         final float discriminant = halfB * halfB - a * c;
 
         if (discriminant < 0.0f) {
-            return HitRecord.noHit();
+            return null;
         }
 
         final float sqrtD = (float) Math.sqrt(discriminant);
@@ -23,7 +23,7 @@ public record Sphere(Vector3 center, float radius, Material material) {
             t = (-halfB + sqrtD) / a;
 
             if (t < tMin || t > tMax) {
-                return HitRecord.noHit();
+                return null;
             }
         }
 
@@ -31,6 +31,6 @@ public record Sphere(Vector3 center, float radius, Material material) {
         final Vector3 normal = point.sub(this.center).mul(1.0f / this.radius);
         final boolean isFrontFace = ray.direction().dot(normal) < 0.0f;
 
-        return new HitRecord(true, t, point, isFrontFace ? normal : normal.neg(), isFrontFace, this.material);
+        return new HitRecord(t, point, isFrontFace ? normal : normal.neg(), isFrontFace, this.material);
     }
 }

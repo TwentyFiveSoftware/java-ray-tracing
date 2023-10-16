@@ -11,6 +11,6 @@ public record DielectricMaterial(float refractionIndex) implements Material {
         final float refractionRatio = hitRecord.isFrontFace() ? (1.0f / this.refractionIndex) : this.refractionIndex;
         final Vector3 scatterDirection = ray.direction().refract(hitRecord.normal(), refractionRatio);
 
-        return new ScatterRecord(true, new Vector3(1.0f, 1.0f, 1.0f), new Ray(hitRecord.point(), scatterDirection));
+        return new ScatterRecord(new Vector3(1.0f, 1.0f, 1.0f), new Ray(hitRecord.point(), scatterDirection));
     }
 }

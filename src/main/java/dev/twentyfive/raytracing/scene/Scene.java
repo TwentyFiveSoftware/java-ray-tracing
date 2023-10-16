@@ -16,10 +16,15 @@ import dev.twentyfive.raytracing.texture.SolidTexture;
 import java.util.ArrayList;
 
 public class Scene {
-    private final ArrayList<Sphere> spheres;
+    private final Sphere[] spheres;
 
     public Scene(ArrayList<Sphere> spheres) {
-        this.spheres = spheres;
+        Sphere[] sphereArray = new Sphere[spheres.size()];
+        for (int i = 0; i < spheres.size(); i++) {
+            sphereArray[i] = spheres.get(i);
+        }
+
+        this.spheres = sphereArray;
     }
 
     public static Scene generateRandomScene() {
@@ -71,12 +76,12 @@ public class Scene {
     }
 
     public HitRecord rayHitsScene(Ray ray) {
-        HitRecord currentHitRecord = HitRecord.noHit();
+        HitRecord currentHitRecord = null;
         float maxT = Float.MAX_VALUE;
 
         for (final Sphere sphere : this.spheres) {
             final HitRecord hitRecord = sphere.rayHitsSphere(ray, 0.001f, maxT);
-            if (hitRecord.hit()) {
+            if (hitRecord != null) {
                 currentHitRecord = hitRecord;
                 maxT = hitRecord.t();
             }
