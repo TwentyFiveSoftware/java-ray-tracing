@@ -15,6 +15,15 @@ public class Vector3 {
         this.z = 0;
     }
 
+    public static Vector3 randomUnitVector() {
+        while (true) {
+            final Vector3 point = new Vector3(Random.randomFloat(-1.0f, 1.0f), Random.randomFloat(-1.0f, 1.0f), Random.randomFloat(-1.0f, 1.0f));
+            if (point.lengthSquared() < 1.0f) {
+                return point.normalized();
+            }
+        }
+    }
+
     public Vector3 add(Vector3 other) {
         return new Vector3(this.x + other.x, this.y + other.y, this.z + other.z);
     }
@@ -66,6 +75,11 @@ public class Vector3 {
         }
 
         return this.mul(1.0f / length);
+    }
+
+    public boolean isNearZero() {
+        final float epsilon = 1e-8f;
+        return Math.abs(this.x) < epsilon && Math.abs(this.y) < epsilon && Math.abs(this.z) < epsilon;
     }
 
     public float getX() {

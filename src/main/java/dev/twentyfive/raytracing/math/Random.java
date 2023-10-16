@@ -8,4 +8,8 @@ public class Random {
         return random.nextFloat();
     }
 
+    public static float randomFloat(float min, float max) {
+        return random.nextFloat() * (max - min) + min;
+    }
+
 }

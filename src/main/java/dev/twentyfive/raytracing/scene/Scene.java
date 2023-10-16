@@ -5,6 +5,7 @@ import dev.twentyfive.raytracing.math.Vector3;
 import dev.twentyfive.raytracing.primitives.Ray;
 import dev.twentyfive.raytracing.primitives.Sphere;
 import dev.twentyfive.raytracing.records.HitRecord;
+import dev.twentyfive.raytracing.texture.SolidTexture;
 
 import java.util.ArrayList;
 
@@ -18,7 +19,7 @@ public class Scene {
     public static Scene generateRandomScene() {
         final ArrayList<Sphere> spheres = new ArrayList<>();
 
-        spheres.add(new Sphere(new Vector3(), 1.0f, new DiffuseMaterial()));
+        spheres.add(new Sphere(new Vector3(), 1.0f, new DiffuseMaterial(new SolidTexture(new Vector3(0.9f, 0.9f, 0.9f)))));
 
         return new Scene(spheres);
     }
