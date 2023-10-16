@@ -82,6 +82,26 @@ public class Vector3 {
         return Math.abs(this.x) < epsilon && Math.abs(this.y) < epsilon && Math.abs(this.z) < epsilon;
     }
 
+    public Vector3 reflect(Vector3 normal) {
+        return this.sub(normal.mul(2.0f * this.dot(normal)));
+    }
+
+    public Vector3 refract(Vector3 normal, float refractionRatio) {
+        final float cosTheta = Math.min(normal.dot(this.neg()), 1.0f);
+        final float sinTheta = (float) Math.sqrt(1.0f - cosTheta * cosTheta);
+
+        final float r0 = (1.0f - refractionRatio) / (1.0f + refractionRatio);
+        final float reflectance = (float) (r0 * r0 + (1.0f - r0 * r0) * Math.pow(1.0f - cosTheta, 5));
+
+        if (refractionRatio * sinTheta > 1.0f || reflectance > Random.randomFloat()) {
+            return this.reflect(normal);
+        }
+
+        final Vector3 rOutPerpendicular = this.add(normal.mul(cosTheta)).mul(refractionRatio);
+        final Vector3 rOutParallel = normal.mul((float) -Math.sqrt(1.0f - rOutPerpendicular.lengthSquared()));
+        return rOutPerpendicular.add(rOutParallel);
+    }
+
     public float getX() {
         return x;
     }
