@@ -18,6 +18,11 @@ public class ImageUtil {
 
         int[] packedPixels = new int[RayTracing.WIDTH * RayTracing.HEIGHT * 3];
         for (int i = 0; i < pixels.length; i++) {
+            if(pixels[i] == null) {
+                System.err.println("skipped pixel " + i);
+                continue;
+            }
+
             final Vector3 pixel = pixels[i].sqrt().mul(0xFF);
 
             packedPixels[i * 3] = (int) pixel.getX();
