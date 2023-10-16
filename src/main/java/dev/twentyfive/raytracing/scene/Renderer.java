@@ -4,12 +4,16 @@ import dev.twentyfive.raytracing.RayTracing;
 import dev.twentyfive.raytracing.math.Random;
 import dev.twentyfive.raytracing.math.Vector3;
 import dev.twentyfive.raytracing.primitives.Ray;
+import dev.twentyfive.raytracing.records.HitRecord;
+import dev.twentyfive.raytracing.records.ScatterRecord;
 
 public class Renderer {
     private final Camera camera;
+    private final Scene scene;
 
-    public Renderer(Camera camera) {
+    public Renderer(Camera camera, Scene scene) {
         this.camera = camera;
+        this.scene = scene;
     }
 
     public Vector3[] render() {
@@ -24,7 +28,7 @@ public class Renderer {
                     float v = ((float) y + Random.randomFloat()) / (float) (RayTracing.HEIGHT - 1);
 
                     Ray ray = this.camera.getCameraRay(u, v);
-                    pixelColorSum = pixelColorSum.add(calculateRayColor(ray));
+                    pixelColorSum = pixelColorSum.add(calculateRayColor(ray, RayTracing.MAX_RAY_TRACE_DEPTH));
                 }
 
                 Vector3 pixelColor = pixelColorSum.mul(1.0f / (float) RayTracing.SAMPLES_PER_PIXEL);
@@ -35,7 +39,22 @@ public class Renderer {
         return pixels;
     }
 
-    private Vector3 calculateRayColor(Ray ray) {
+    private Vector3 calculateRayColor(Ray ray, int remainingDepth) {
+        if (remainingDepth <= 0) {
+            return new Vector3();
+        }
+
+        final HitRecord hitRecord = this.scene.rayHitsScene(ray);
+        if (!hitRecord.hit()) {
+            final float t = 0.5f * (ray.direction().getY() + 1.0f);
+            return new Vector3(1.0f, 1.0f, 1.0f).mul(1.0f - t).add(new Vector3(0.5f, 0.7f, 1.0f).mul(t));
+        }
+
+        ScatterRecord scatterRecord = hitRecord.material().scatter(ray, hitRecord);
+        if (scatterRecord.doesScatter()) {
+            return scatterRecord.attenuation().mul(calculateRayColor(scatterRecord.scatteredRay(), remainingDepth - 1));
+        }
+
         return new Vector3();
     }
 }

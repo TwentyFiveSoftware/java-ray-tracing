@@ -31,6 +31,10 @@ public class Vector3 {
         return new Vector3(this.x * scalar, this.y * scalar, this.z * scalar);
     }
 
+    public Vector3 mul(Vector3 other) {
+        return new Vector3(this.x * other.x, this.y * other.y, this.z * other.z);
+    }
+
     public Vector3 cross(Vector3 other) {
         return new Vector3(
             this.y * other.z - this.z * other.y,
